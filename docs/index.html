@@ -29,7 +29,7 @@
       download: true,
       header: true,
       complete: function(results) {
-        const data = results.data;
+        const data = results.data.filter(row => Object.values(row).some(val => val !== ""));
         const columns = Object.keys(data[0]).map(key => ({ title: key, data: key }));
         $('#data-table').DataTable({
           data: data,
