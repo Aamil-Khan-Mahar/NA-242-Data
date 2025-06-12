@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>NA-242 Turnout Data</title>
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 40px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+  </style>
+</head>
+<body>
+  <h1>NA-242 Election Turnout Data</h1>
+  <p>This is a searchable, sortable table of polling station turnout and results, based on Form-45 data.</p>
+  <table id="csv-table" class="display"></table>
+
+  <script>
+    Papa.parse("data.csv", {
+      download: true,
+      header: true,
+      complete: function(results) {
+        const data = results.data;
+        const columns = Object.keys(data[0]).map(key => ({ title: key }));
+        $('#csv-table').DataTable({
+          data: data.map(row => Object.values(row)),
+          columns: columns,
+          pageLength: 25
+        });
+      }
+    });
+  </script>
+</body>
+</html>
